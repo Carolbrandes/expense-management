@@ -1,13 +1,25 @@
-export const theme = {
+import { DefaultTheme } from "styled-components";
+
+export const lightTheme: DefaultTheme = {
     colors: {
-        primary: "#0070f3",
+        primary: "#cdd4dd",
         secondary: "#1db954",
-        background: "#f0f0f0",
-        text: "#333"
+        background: "#ffffff",
+        text: "#333",
     },
     fonts: {
-        main: "'Arial', sans-serif"
-    }
+        main: "'Arial', sans-serif",
+    },
 };
 
-export type ThemeType = typeof theme;
+export const darkTheme: DefaultTheme = {
+    colors: {
+        primary: "#40474f",
+        secondary: "#0070f3",
+        background: "#121212",
+        text: "#ffffff",
+    },
+    fonts: {
+        main: "'Arial', sans-serif",
+    },
+};

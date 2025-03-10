@@ -13,6 +13,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "types": ["styled-components", "@types/styled-components"],
     "plugins": [
       {
         "name": "next"
@@ -22,6 +24,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["src/**/*", "next-env.d.ts", "**/*.ts", "**/*.tsx", "src/styles/styled-components.d.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

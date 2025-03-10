@@ -1,42 +1,45 @@
-'use client';
+"use client";
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { darkTheme, lightTheme } from '../../lib/theme';
+import { darkTheme, lightTheme, ThemeType } from "@/styles/theme";
+import { createContext, useContext, useEffect, useState } from "react";
+import { ThemeProvider } from "styled-components";
 
-const ThemeModeContext = createContext({
-  toggleTheme: () => { },
-  mode: 'light',
-});
+interface ThemeContextType {
+  toggleTheme: () => void;
+  theme: ThemeType;
+}
 
-export const ThemeModeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export function ThemeContextProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<ThemeType>(lightTheme);
 
   useEffect(() => {
-    const savedMode = localStorage.getItem('theme-mode') as 'light' | 'dark';
-    if (savedMode) {
-      setMode(savedMode);
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      setTheme(darkTheme);
     }
   }, []);
 
   const toggleTheme = () => {
-    setMode((prevMode) => {
-      const newMode = prevMode === 'light' ? 'dark' : 'light';
-      localStorage.setItem('theme-mode', newMode);
-      return newMode;
+    setTheme((prevTheme) => {
+      const newTheme = prevTheme === lightTheme ? darkTheme : lightTheme;
+      localStorage.setItem("theme", newTheme === darkTheme ? "dark" : "light");
+      return newTheme;
     });
   };
 
-  const appliedTheme = mode === 'light' ? lightTheme : darkTheme;
-
   return (
-    <ThemeModeContext.Provider value={{ toggleTheme, mode }}>
-      <ThemeProvider theme={appliedTheme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </ThemeModeContext.Provider>
+    <ThemeContext.Provider value={{ toggleTheme, theme }}>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </ThemeContext.Provider>
   );
-};
+}
 
-export const useThemeMode = () => useContext(ThemeModeContext);
+export function useThemeContext() {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useThemeContext must be used within a ThemeContextProvider");
+  }
+  return context;
+}

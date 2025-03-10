@@ -1,7 +1,5 @@
 'use client';
 
-import { useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import {
     ReactNode,
     createContext,
@@ -9,11 +7,6 @@ import {
     useEffect,
     useState
 } from 'react';
-import { ExpenseResponse, FilterProps } from '../types/interfaces';
-import { useExpensesQuery } from './useExpensesQuery';
-
-
-
 interface TransactionProviderProps {
     readonly children: ReactNode
     userId: string | number | null
@@ -26,18 +19,18 @@ interface DeleteTargetProps {
 
 
 interface TransactionContextProps {
-    expenses: ExpenseResponse | undefined
+    expenses: IExpense[] | undefined
 
     loading: boolean
     updateLoading: (isLoading: boolean) => void
 
     isMobile: boolean
 
-    formatDateFromISO: (isoString) => string
+    formatDateFromISO: (isoString: Date) => string
 
     editingId: number | null
     defineEditExpenseId: (expenseSelectedId: number | null) => void
-    updateExpenseEdit: (updatedExpense) => void
+    updateExpenseEdit: (updatedExpense: IExpense) => void
 
     deleteDialogOpen: boolean
     toggleCancelModal: (isOpen: boolean) => void
@@ -49,8 +42,8 @@ interface TransactionContextProps {
     pageSize: number
     totalPages: number
 
-    appliedFilters: FilterProps
-    onApplyFilters: (filters: FilterProps) => void
+    appliedFilters: IFilter
+    onApplyFilters: (filters: IFilter) => void
 
 }
 
@@ -77,8 +70,7 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
         sortOrder: "desc"
     });
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const { user, updateUser } = useUserQuery();
     const { expenses, updateExpense } = useExpensesQuery(page, pageSize, appliedFilters, true);
 
 

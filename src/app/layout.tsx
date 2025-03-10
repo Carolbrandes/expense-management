@@ -1,17 +1,22 @@
 "use client";
 
+import { ThemeContextProvider } from "@/app/hooks/useThemeMode";
 import { GlobalStyle } from "@/styles/global";
-import { theme } from "@/styles/theme";
-import { ThemeProvider } from "styled-components";
+import { AuthProvider } from "./hooks/useAuthContext";
+import ReactQueryProvider from "./providers/react-query-provider";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt">
       <body>
-        <ThemeProvider theme={theme}>
+        <ThemeContextProvider>
           <GlobalStyle />
-          {children}
-        </ThemeProvider>
+          <AuthProvider>
+            <ReactQueryProvider>
+              {children}
+            </ReactQueryProvider>
+          </AuthProvider>
+        </ThemeContextProvider>
       </body>
     </html>
   );
