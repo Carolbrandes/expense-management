@@ -3,7 +3,8 @@
 import { useUserQuery } from '@/app/hooks/useUserQuery';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeEvent } from 'react';
-import { fetchCurrencies } from '../../../lib/fetchCurrencies';
+import { fetchCurrencies } from '../../../../../../../lib/fetchCurrencies';
+import * as S from './style';
 
 
 export const CurrencySelect = () => {
@@ -47,9 +48,8 @@ export const CurrencySelect = () => {
   }
 
   return (
-    <div>
-      <label htmlFor="currency-select">Select Currency:</label>
-      <select
+    <>
+      <S.CurrencySelectContainer
         id="currency-select"
         onChange={handleCurrencyChange}
         value={user?.currency?.acronym || ''} // Set the selected value to the user's current currency
@@ -63,8 +63,8 @@ export const CurrencySelect = () => {
             {currency.name} ({currency.acronym})
           </option>
         ))}
-      </select>
+      </S.CurrencySelectContainer>
       {isUserUpdating && <p>Updating currency...</p>}
-    </div>
+    </>
   );
 };

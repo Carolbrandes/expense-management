@@ -6,6 +6,7 @@ export const lightTheme: DefaultTheme = {
         secondary: "#1db954",
         background: "#ffffff",
         text: "#333",
+        diviser: "#33333338",
     },
     fonts: {
         main: "'Arial', sans-serif",
@@ -18,8 +19,11 @@ export const darkTheme: DefaultTheme = {
         secondary: "#0070f3",
         background: "#121212",
         text: "#ffffff",
+        diviser: "#fff",
     },
     fonts: {
         main: "'Arial', sans-serif",
     },
 };
+
+export type ThemeType = typeof lightTheme | typeof darkTheme;
