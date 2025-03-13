@@ -7,6 +7,9 @@ export const lightTheme: DefaultTheme = {
         background: "#ffffff",
         text: "#333",
         diviser: "#33333338",
+        error: "#d76060",
+        success: "#87aa81",
+        info: "#efd4af"
     },
     fonts: {
         main: "'Arial', sans-serif",
@@ -20,6 +23,9 @@ export const darkTheme: DefaultTheme = {
         background: "#121212",
         text: "#ffffff",
         diviser: "#fff",
+        error: "#d76060",
+        success: "#87aa81",
+        info: "#efd4af"
     },
     fonts: {
         main: "'Arial', sans-serif",

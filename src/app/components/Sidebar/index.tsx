@@ -1,3 +1,6 @@
+import { useAuth } from '@/app/hooks/useAuthContext'
+import { useRouter } from "next/navigation"
+import { useEffect } from 'react'
 import { Divider } from '../Divider'
 import { Footer } from '../Footer'
 import { Section } from '../Section'
@@ -7,6 +10,16 @@ import { UserSettings } from './components/UserSettings'
 import * as S from './style'
 
 export const Sidebar = () => {
+    // verification if user is loggedIn
+    const { isAuthenticated } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            router.push("/Login");
+        }
+    }, [isAuthenticated, router]);
+
     return (
         <S.SidebarContainer>
 

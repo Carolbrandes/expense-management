@@ -17,7 +17,7 @@ export const Switch = styled.div`
 `;
 
 interface SwitchButtonProps {
-  isDarkMode: boolean;
+  isdarkmode: boolean;
 }
 
 export const SwitchButton = styled.div<SwitchButtonProps>`
@@ -26,7 +26,7 @@ export const SwitchButton = styled.div<SwitchButtonProps>`
   background-color: ${({ theme }) => theme.colors.primary};
   border-radius: 50%;
   position: absolute;
-  left: ${({ isDarkMode }) => (isDarkMode ? "5px" : "calc(100% - 35px)")}; 
+  left: ${({ isdarkmode }) => (isdarkmode ? "5px" : "calc(100% - 35px)")}; 
   transition: left 0.3s ease;
 `;
 

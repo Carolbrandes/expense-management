@@ -29,7 +29,7 @@ export const SwitchThemeButton = () => {
             <S.IconWrapper>
                 <RiSunLine />
             </S.IconWrapper>
-            <S.SwitchButton isDarkMode={isDarkMode} />
+            <S.SwitchButton isdarkmode={isDarkMode} />
         </S.Switch>
     );
 };
