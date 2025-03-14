@@ -1,13 +1,14 @@
 import { useUserQuery } from "@/app/hooks/useUserQuery";
+import * as S from './style';
 
 export const User = () => {
     const { user } = useUserQuery();
     console.log("🚀 ~ User ~ user:", user)
 
     return (
-        <div>
-            Hi, carol
-        </div>
+        <S.UserContainer>
+            Hi, {user.email}
+        </S.UserContainer>
     )
 }
 
