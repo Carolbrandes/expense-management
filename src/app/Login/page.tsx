@@ -135,7 +135,7 @@ export default function LoginPage() {
                             type="email"
                             placeholder="Enter your email"
                         />
-                        <Button onclick={sendCode} isLoading={isLoading}>
+                        <Button onclick={sendCode} isLoading={isLoading} widthButton="14rem">
                             Send the code
                         </Button>
                     </S.StyledFormContainer>
@@ -157,7 +157,7 @@ export default function LoginPage() {
                             onchange={setCode}
                         />
 
-                        <Button onclick={verifyCode} isLoading={isLoading}>
+                        <Button onclick={verifyCode} isLoading={isLoading} widthButton="14rem">
                             Check code
                         </Button>
                     </S.StyledFormContainer>

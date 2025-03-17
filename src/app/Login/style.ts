@@ -6,6 +6,7 @@ export const StyledBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
   height: 100vh;
   padding: 16px;
   background-color: #f5f5f5;
@@ -22,7 +23,7 @@ export const FormBox = styled.div`
   border-radius: 8px;
   box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
   width: 100%;
-  max-width: 25rem;
+  max-width: 35rem;
   min-height: 10rem;
 `;
 
@@ -41,7 +42,7 @@ export const StyledTypography = styled.h5`
 export const StyledFormContainer = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.05rem;
     padding-bottom: 1.5rem;
 `
 interface StyledAlertProps {

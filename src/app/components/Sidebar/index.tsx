@@ -10,8 +10,9 @@ import { UserSettings } from './components/UserSettings'
 import * as S from './style'
 
 export const Sidebar = () => {
-    // verification if user is loggedIn
+    console.log("Sidebar")
     const { isAuthenticated } = useAuth();
+
     const router = useRouter();
 
     useEffect(() => {
