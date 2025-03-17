@@ -1,6 +1,6 @@
 'use client'
 
-import { labelPosition } from '../Input';
+
 import * as S from './style';
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {

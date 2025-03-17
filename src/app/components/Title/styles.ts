@@ -1,5 +1,5 @@
 import { css, styled } from "styled-components"
-import { direction, position } from "."
+
 
 interface TitleContainerProps {
     direction?: direction

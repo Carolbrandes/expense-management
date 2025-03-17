@@ -1,5 +1,5 @@
-import { css, styled } from 'styled-components'; // Use `css` from styled-components
-import { labelPosition } from '../Input';
+import { css, styled } from 'styled-components';
+
 
 interface StyledSelectContainerProps {
   labelPosition?: labelPosition;
@@ -8,7 +8,7 @@ interface StyledSelectContainerProps {
 
 export const SelectContainer = styled.div<StyledSelectContainerProps>`
   width: 100%;
-  margin: ${props => props.margin || "0.8rem"}; // Simplified margin logic
+  margin: ${props => props.margin || "0.8rem"};
 
   label {
     text-transform: capitalize;

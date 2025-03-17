@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { labelPosition } from '../Input';
+
 
 interface StyledDateInputContainerProps {
   labelPosition?: labelPosition;

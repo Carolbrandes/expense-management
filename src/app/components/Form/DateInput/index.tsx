@@ -1,6 +1,4 @@
 'use client'
-
-import { labelPosition } from '../Input';
 import * as S from './style';
 
 interface DateProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -9,7 +7,7 @@ interface DateProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const DateInput = ({ label, labelPosition = 'top', ...rest }: DateProps) => {
-    console.log("🚀 ~ DateInput ~ label:", label)
+
     return (
         <S.DateInputContainer labelPosition={labelPosition}>
             {label && <label htmlFor={label}>{label}</label>}
