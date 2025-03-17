@@ -16,7 +16,7 @@ export const Sidebar = () => {
 
     useEffect(() => {
         if (!isAuthenticated) {
-            router.push("/Login");
+            router.push("/login");
         }
     }, [isAuthenticated, router]);
 

@@ -11,6 +11,7 @@ declare module "styled-components" {
       secondary: string;
       background: string;
       text: string;
+      secondaryText: string
       diviser: string;
       error: string;
       success: string;

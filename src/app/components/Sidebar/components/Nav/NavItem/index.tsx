@@ -1,18 +1,22 @@
-import React from 'react'
-import * as S from './style'
+import Link from 'next/link';
+import React from 'react';
+import * as S from './style';
+
 
 interface NavItemProps {
     icon: React.ReactNode
     text?: string
+    link?: string
     children?: React.ReactNode
 }
 
-export const NavItem = ({ icon, text, children }: NavItemProps) => {
-    return text ? (
+export const NavItem = ({ icon, text, link, children }: NavItemProps) => {
+
+    return text && link ? (
         <S.NavItemContainer>
             <div>{icon}</div>
             <div>
-                <a href="">{text}</a>
+                <Link href={link}>{text}</Link>
             </div>
         </S.NavItemContainer>
     ) : (

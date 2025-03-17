@@ -5,4 +5,5 @@ export const UserContainer = styled.div`
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
+    color: ${({ theme }) => theme.colors.secondaryText};
 `

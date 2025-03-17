@@ -2,7 +2,7 @@
   Warnings:
 
   - Added the required column `userId` to the `Category` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `userId` to the `Expense` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `userId` to the `Transaction` table without a default value. This is not possible if the table is not empty.
 
 */
 -- CreateTable
@@ -34,7 +34,7 @@ INSERT INTO "new_Category" ("id", "name") SELECT "id", "name" FROM "Category";
 DROP TABLE "Category";
 ALTER TABLE "new_Category" RENAME TO "Category";
 CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
-CREATE TABLE "new_Expense" (
+CREATE TABLE "new_Transaction" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "description" TEXT NOT NULL,
     "category" TEXT NOT NULL,
@@ -42,11 +42,11 @@ CREATE TABLE "new_Expense" (
     "date" DATETIME NOT NULL,
     "type" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
-    CONSTRAINT "Expense_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
-INSERT INTO "new_Expense" ("amount", "category", "date", "description", "id", "type") SELECT "amount", "category", "date", "description", "id", "type" FROM "Expense";
-DROP TABLE "Expense";
-ALTER TABLE "new_Expense" RENAME TO "Expense";
+INSERT INTO "new_Transaction" ("amount", "category", "date", "description", "id", "type") SELECT "amount", "category", "date", "description", "id", "type" FROM "Transaction";
+DROP TABLE "Transaction";
+ALTER TABLE "new_Transaction" RENAME TO "Transaction";
 PRAGMA foreign_keys=ON;
 PRAGMA defer_foreign_keys=OFF;
 

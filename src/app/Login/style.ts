@@ -44,37 +44,8 @@ export const StyledFormContainer = styled.div`
     gap: 0.5rem;
     padding-bottom: 1.5rem;
 `
-
-export const StyledTextField = styled.input`
-  width: 12rem;
-  height: 3rem;
-  padding: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
-  border-radius: 8px;
-  color: ${({ theme }) => theme.colors.text};
-  &:focus {
-    outline: none;
-  }
-`;
-
-export const StyledButton = styled.button`
-  width: fit-content;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.text};
-  border: none;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  cursor: pointer;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-  }
-`;
-
-
-
 interface StyledAlertProps {
-    severity: Severity
+  severity: Severity
 }
 
 export const StyledAlert = styled.div<StyledAlertProps>`
@@ -82,9 +53,9 @@ export const StyledAlert = styled.div<StyledAlertProps>`
   padding: 1rem;
   border-radius: 8px;
   background-color: ${({ severity, theme }) =>
-        severity === 'error' ? theme.colors.error :
-            severity === 'success' ? theme.colors.success :
-                theme.colors.info};
+    severity === 'error' ? theme.colors.error :
+      severity === 'success' ? theme.colors.success :
+        theme.colors.info};
   color: #fff;
   position: absolute;
     right: 3rem;

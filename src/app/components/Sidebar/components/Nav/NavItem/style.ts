@@ -8,6 +8,6 @@ export const NavItemContainer = styled.div`
 
     a{
         text-decoration: none;
-        color: ${({ theme }) => theme.colors.text};
+        color: ${({ theme }) => theme.colors.secondaryText};
     }
 `

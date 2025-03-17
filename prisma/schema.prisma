@@ -1,10 +1,10 @@
 datasource db {
-  provider = "sqlite" // Use SQLite como provedor
-  url      = env("DATABASE_URL") // A URL do banco de dados vem do .env
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js" // Gera o cliente Prisma
+  provider = "prisma-client-js"
 }
 
 model User {
@@ -12,7 +12,7 @@ model User {
   email       String           @unique
   createdAt   DateTime         @default(now())
   verificationCodes VerificationCode[]
-  expenses    Expense[]
+  transactions Transaction[] // Updated from transactions to transactions
   categories  Category[]
   currency    Currency?        @relation(fields: [currencyId], references: [id])
   currencyId  Int?             // Make this nullable initially
@@ -24,6 +24,7 @@ model Currency {
   acronym  String
   users    User[]   // This defines the reverse relation
 }
+
 model VerificationCode {
   id        Int      @id @default(autoincrement())
   expiresAt DateTime 
@@ -35,8 +36,7 @@ model VerificationCode {
   user      User     @relation(fields: [userId], references: [id])
 }
 
-
-model Expense {
+model Transaction { // Renamed from Transaction to Transaction
   id          Int      @id @default(autoincrement())
   description String
   category    String

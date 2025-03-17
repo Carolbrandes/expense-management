@@ -6,10 +6,15 @@ interface TitleContainerProps {
     gap?: string
     positionAlign?: position
     positionJustify?: position
+    margin?: string
+    color?: string
 }
 
 export const TitleContainer = styled.div<TitleContainerProps>`
-    margin-bottom:0.5rem;
+    margin: ${props => props.margin ? props.margin : '0 0 0.5rem 0'};
+    color: ${(props) =>
+        props.color ? props.color : props.theme.colors.secondaryText}; 
+    
     ${props => {
         return props.direction && props.gap && css`
                                 display: flex;

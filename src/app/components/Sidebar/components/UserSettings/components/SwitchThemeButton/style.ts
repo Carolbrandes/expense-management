@@ -36,5 +36,5 @@ export const IconWrapper = styled.div`
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.secondaryText};
 `;

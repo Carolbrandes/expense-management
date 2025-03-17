@@ -1,15 +1,14 @@
-// LoginPage.js
 "use client";
 
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TbPigMoney } from "react-icons/tb";
-import { Spinner } from "../components/Spinner";
+import { Button } from "../components/Form/Button";
+import { Input } from "../components/Form/Input";
 import { useAuth } from "../hooks/useAuthContext";
 import * as S from './style';
 
-export type Severity = 'error' | 'success'
 
 interface MessageSeverityProps {
     [key: string]: Severity
@@ -130,18 +129,15 @@ export default function LoginPage() {
 
 
                     <S.StyledFormContainer>
-                        <S.StyledTextField
-                            type="email"
-                            placeholder="Email"
+                        <Input
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onchange={setEmail}
+                            type="email"
+                            placeholder="Enter your email"
                         />
-                        <S.StyledButton onClick={sendCode}>
-                            {
-                                isLoading ? <Spinner /> : "Send the code"
-                            }
-                        </S.StyledButton>
-
+                        <Button onclick={sendCode} isLoading={isLoading}>
+                            Send the code
+                        </Button>
                     </S.StyledFormContainer>
 
                     {message && (
@@ -155,19 +151,15 @@ export default function LoginPage() {
                     <S.StyledTypography>Código</S.StyledTypography>
 
                     <S.StyledFormContainer>
-                        <S.StyledTextField
-                            type="text"
-                            placeholder="Código de Verificação"
+                        <Input
+                            placeholder="Verification code"
                             value={code}
-                            onChange={(e) => setCode(e.target.value)}
+                            onchange={setCode}
                         />
-                        <S.StyledButton onClick={verifyCode}>
-                            {
-                                isLoading ? <Spinner /> : "Verificar"
-                            }
 
-                        </S.StyledButton>
-
+                        <Button onclick={verifyCode} isLoading={isLoading}>
+                            Check code
+                        </Button>
                     </S.StyledFormContainer>
 
                     {message && (
@@ -176,9 +168,9 @@ export default function LoginPage() {
                                 {message}
                             </S.StyledAlert>
                             {message === "Invalid code." && (
-                                <S.StyledButton onClick={handleBackToEmail}>
-                                    Voltar para o início
-                                </S.StyledButton>
+                                <Button onclick={handleBackToEmail} isLoading={isLoading}>
+                                    Return to login
+                                </Button>
                             )}
                         </>
                     )}

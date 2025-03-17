@@ -1,22 +1,20 @@
 import * as S from './styles';
 
-type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-export type direction = 'column' | 'row'
-export type position = 'center' | 'flex-start' | 'flex-end' | 'space-between' | 'space-around'
-
 interface TitleProps {
     text: string;
     tag: HeadingTag;
     fontSize?: string
+    margin?: string
     icon?: React.ReactNode
     direction?: direction
     gap?: string
     positionAlign?: position
     positionJustify?: position
+    color?: string
 
 }
 
-export const Title = ({ text, tag: Tag, fontSize = '1rem', icon, direction, gap, positionAlign, positionJustify }: TitleProps) => {
+export const Title = ({ text, tag: Tag, fontSize = '1rem', icon, direction, gap, positionAlign, positionJustify, margin, color }: TitleProps) => {
     const validTags: HeadingTag[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
     if (!validTags.includes(Tag)) {
@@ -28,6 +26,8 @@ export const Title = ({ text, tag: Tag, fontSize = '1rem', icon, direction, gap,
         gap={gap}
         positionAlign={positionAlign}
         positionJustify={positionJustify}
+        margin={margin}
+        color={color}
     >
         {icon && icon}
         <Tag style={{ fontSize }}>{text}</Tag>

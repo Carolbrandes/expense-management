@@ -7,7 +7,7 @@ export const Logo = () => {
         <S.LogoContainer>
             <Title
                 tag="h1"
-                text="Expense Management"
+                text="Transaction Management"
                 icon={<TbPigMoney size={45} />}
                 gap="0.8rem"
                 direction="column"

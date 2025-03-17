@@ -21,11 +21,11 @@ const fetchUser = async (userId: string, filters: IFilter): Promise<IUser> => {
         throw new Error('Failed to fetch user data');
     }
     const respJson = await response.json();
-    console.log("🚀 ~ fetchUser ~ respJson:", respJson);
+
     return respJson;
 };
 
-// Update user data (expenses, categories, currency)
+// Update user data (transactions, categories, currency)
 const updateUser = async (user: IUser): Promise<IUser> => {
     const response = await fetch('/api/user', {
         method: 'PUT',
@@ -42,14 +42,14 @@ const updateUser = async (user: IUser): Promise<IUser> => {
     return data;
 };
 
-// Delete user expenses and categories
+// Delete user transactions and categories
 const deleteUserData = async (
     userId: string,
     options: {
         categoryId?: number;
-        expenseId?: number;
+        transactionId?: number;
         deleteAllCategories?: boolean;
-        deleteAllExpenses?: boolean;
+        deleteAllTransactions?: boolean;
     }
 ): Promise<void> => {
     const response = await fetch('/api/user', {
@@ -92,7 +92,7 @@ export const useUserQuery = () => {
             email: '',
             currency: { name: 'Dólar Americano', acronym: 'USD' },
             categories: [],
-            expenses: [],
+            transactions: [],
             createdAt: new Date,
             verificationCodes: [
                 {
@@ -139,9 +139,9 @@ export const useUserQuery = () => {
     } = useMutation({
         mutationFn: (options: {
             categoryId?: number;
-            expenseId?: number;
+            transactionId?: number;
             deleteAllCategories?: boolean;
-            deleteAllExpenses?: boolean;
+            deleteAllTransactions?: boolean;
         }) => {
             if (!userId) {
                 return Promise.resolve(null);

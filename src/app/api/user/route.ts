@@ -36,7 +36,7 @@ export async function GET(req: Request) {
         // Build the sorting object
         const orderBy = sortBy ? { [sortBy]: sortOrder || 'asc' } : undefined;
 
-        // Fetch user data with filtered expenses
+        // Fetch user data with filtered transactions
         const user = await prisma.user.findUnique({
             where: { id: userIdNumber },
             select: {
@@ -45,7 +45,7 @@ export async function GET(req: Request) {
                 currency: true,
                 createdAt: true,
                 categories: true,
-                expenses: {
+                transactions: {
                     where: {
                         ...(filter.description && { description: { contains: filter.description } }),
                         ...(filter.category && { category: filter.category }),
@@ -77,7 +77,7 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
     try {
         const body = await req.json();
-        const { id, expenses, categories, currency } = body;
+        const { id, transactions, categories, currency } = body;
 
         // Validate userId
         if (!id) {
@@ -98,20 +98,20 @@ export async function PUT(req: Request) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        // Update or create expenses
-        if (expenses) {
-            for (const expense of expenses) {
-                if (expense.id) {
-                    // Update existing expense
-                    await prisma.expense.update({
-                        where: { id: expense.id },
-                        data: expense,
+        // Update or create transactions
+        if (transactions) {
+            for (const transaction of transactions) {
+                if (transaction.id) {
+                    // Update existing transaction
+                    await prisma.transaction.update({
+                        where: { id: transaction.id },
+                        data: transaction,
                     });
                 } else {
-                    // Create new expense
-                    await prisma.expense.create({
+                    // Create new transaction
+                    await prisma.transaction.create({
                         data: {
-                            ...expense,
+                            ...transaction,
                             userId: userIdNumber, // Associate with the user
                         },
                     });
@@ -153,7 +153,7 @@ export async function PUT(req: Request) {
         const updatedUser = await prisma.user.findUnique({
             where: { id: userIdNumber },
             include: {
-                expenses: true,
+                transactions: true,
                 categories: true,
                 currency: true,
             },
@@ -172,7 +172,7 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
     try {
         const body = await req.json();
-        const { id, categoryId, expenseId, deleteAllCategories, deleteAllExpenses } = body;
+        const { id, categoryId, transactionId, deleteAllCategories, deleteAllTransactions } = body;
 
         // Validate userId
         if (!id) {
@@ -213,23 +213,23 @@ export async function DELETE(req: Request) {
             });
         }
 
-        // Delete specific expense
-        if (expenseId) {
-            await prisma.expense.delete({
-                where: { id: expenseId, userId: userIdNumber },
+        // Delete specific transaction
+        if (transactionId) {
+            await prisma.transaction.delete({
+                where: { id: transactionId, userId: userIdNumber },
             });
             return NextResponse.json({
-                message: 'Expense deleted successfully',
+                message: 'Transaction deleted successfully',
             });
         }
 
-        // Delete all expenses
-        if (deleteAllExpenses) {
-            await prisma.expense.deleteMany({
+        // Delete all transactions
+        if (deleteAllTransactions) {
+            await prisma.transaction.deleteMany({
                 where: { userId: userIdNumber },
             });
             return NextResponse.json({
-                message: 'All expenses deleted successfully',
+                message: 'All transactions deleted successfully',
             });
         }
 
