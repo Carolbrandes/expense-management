@@ -99,14 +99,14 @@ export const useUserQuery = () => {
             currency: { name: 'Dólar Americano', acronym: 'USD' },
             categories: [],
             transactions: [],
-            createdAt: new Date,
+            createdAt: new Date(),
             verificationCodes: [
                 {
                     id: 0,
-                    expiresAt: new Date,
+                    expiresAt: new Date(),
                     userId: 0,
                     code: "",
-                    createdAt: Date,
+                    createdAt: new Date(),
                     expired: false,
                     user: {} as IUser,
                 }

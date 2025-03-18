@@ -1,25 +1,23 @@
 'use client'
 
 import { useUserQuery } from '@/app/hooks/useUserQuery';
-import { useQuery } from '@tanstack/react-query';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { fetchCurrencies } from '../../../../../../../lib/fetchCurrencies';
 import * as S from './style';
 
-
 export const CurrencySelect = () => {
   const { user, updateUser, isUserUpdating } = useUserQuery();
+  const [currencies, setCurrencies] = useState<ICurrency[]>([]); // Local state for currencies
 
-  // Fetch currencies
-  const {
-    data: currencies = [],
-    isLoading: isLoadingCurrencies,
-    error: currenciesError,
-  } = useQuery<ICurrency[]>({
-    queryKey: ['currencies'],
-    queryFn: fetchCurrencies,
-    staleTime: Infinity,
-  });
+  // Fetch currencies on the client side
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchCurrencies();
+      setCurrencies(data);
+    };
+
+    fetchData();
+  }, []);
 
   // Handle currency change
   const handleCurrencyChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -27,33 +25,22 @@ export const CurrencySelect = () => {
     const selectedCurrency = currencies.find((currency) => currency.acronym === acronym);
 
     if (selectedCurrency) {
-      // Update the user's currency
       updateUser({
         ...user,
         currency: selectedCurrency,
-        createdAt: user?.createdAt || new Date(), // Provide a default value if missing
-        verificationCodes: user?.verificationCodes || [], // Provide a default value if missing
+        createdAt: user?.createdAt || new Date(),
+        verificationCodes: user?.verificationCodes || [],
       });
     }
   };
-
-  // Show loading state while fetching currencies
-  if (isLoadingCurrencies) {
-    return <div>Loading currencies...</div>;
-  }
-
-  // Show error state if fetching currencies fails
-  if (currenciesError) {
-    return <div>Error loading currencies: {currenciesError.message}</div>;
-  }
 
   return (
     <>
       <S.CurrencySelectContainer
         id="currency-select"
         onChange={handleCurrencyChange}
-        value={user?.currency?.acronym || ''} // Set the selected value to the user's current currency
-        disabled={isUserUpdating} // Disable the select while updating the user
+        value={user?.currency?.acronym || ''}
+        disabled={isUserUpdating}
       >
         <option value="" disabled>
           Select a currency

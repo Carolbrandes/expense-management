@@ -1,15 +1,25 @@
 'use client'
 
-import { useUserQuery } from "@/app/hooks/useUserQuery";
-import { RiMoonFill, RiSunLine } from "react-icons/ri";
-import * as S from "./style";
-
+import { useUserQuery } from '@/app/hooks/useUserQuery';
+import { useEffect, useState } from 'react';
+import { RiMoonFill, RiSunLine } from 'react-icons/ri';
+import * as S from './style';
 
 const SwitchThemeButton = () => {
-    const { user, updateUser } = useUserQuery()
+    const { user, updateUser } = useUserQuery();
+    const [selectedTheme, setSelectedTheme] = useState<Theme>('light'); // Default to 'light'
+
+    // Sync selectedTheme with user.selectedTheme
+    useEffect(() => {
+        if (user?.selectedTheme) {
+            setSelectedTheme(user.selectedTheme);
+        }
+    }, [user?.selectedTheme]);
 
     const handleToggle = () => {
-        updateUser({ selectedTheme: user.selectedTheme == 'light' ? 'dark' : 'light' });
+        const newTheme = selectedTheme === 'light' ? 'dark' : 'light';
+        setSelectedTheme(newTheme);
+        updateUser({ selectedTheme: newTheme });
     };
 
     return (
@@ -20,9 +30,9 @@ const SwitchThemeButton = () => {
             <S.IconWrapper>
                 <RiSunLine />
             </S.IconWrapper>
-            <S.SwitchButton isdarkmode={user.selectedTheme} />
+            <S.SwitchButton isdarkmode={selectedTheme} />
         </S.Switch>
     );
 };
 
-export default SwitchThemeButton
+export default SwitchThemeButton;
