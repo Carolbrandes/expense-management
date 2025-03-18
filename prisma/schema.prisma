@@ -12,10 +12,11 @@ model User {
   email       String           @unique
   createdAt   DateTime         @default(now())
   verificationCodes VerificationCode[]
-  transactions Transaction[] // Updated from transactions to transactions
+  transactions Transaction[]
   categories  Category[]
   currency    Currency?        @relation(fields: [currencyId], references: [id])
-  currencyId  Int?             // Make this nullable initially
+  currencyId  Int?
+  selectedTheme String          
 }
 
 model Currency {

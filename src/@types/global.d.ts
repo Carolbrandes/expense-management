@@ -2,11 +2,9 @@
 
 type TTransactionDelete = Pick<ITransaction, 'id' | 'description'>
 
-enum ETransactionType {
-    Income = 'income',
-    Expense = 'expense',
-}
+type TransactionType = 'income' | 'expense'
 
+type Theme = 'light' | 'dark'
 
 interface IUser {
     id: number;
@@ -17,7 +15,10 @@ interface IUser {
     categories: Category[];
     currency?: Currency;
     currencyId?: number;
+    selectedTheme: Theme
 }
+
+type INewUser = Pick<IUser, 'email', 'selectedTheme', 'currency'>;
 
 interface ICurrency {
     name: string;
@@ -50,7 +51,7 @@ interface ITransaction {
     category: string;
     amount: string;
     date: Date;
-    type: ETransactionType;
+    type: TransactionType;
     userId: number;
     user: User;
 }
@@ -72,16 +73,16 @@ interface IFilter {
     endDate?: string
     sortBy?: string
     sortOrder?: string
+    selectedTheme?: Theme
 }
 
 // *** form types ***
 type TypeInput = 'text' | 'select' | 'date';
 type Severity = 'error' | 'success';
 
-interface BaseField {
+interface BaseField extends React.InputHTMLAttributes<HTMLInputElement> {
     type: TypeInput;
     label: string;
-    value: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void; // Updated to accept event
 }
 
@@ -99,6 +100,9 @@ interface SelectField extends BaseField {
 }
 
 type Field = TextField | DateField | SelectField;
+
+type MessageSeverity = 'error' | 'success' | 'info'
+
 
 // *** styles types ***
 type labelPosition = 'top' | 'left'

@@ -19,7 +19,7 @@ export const Nav = () => {
         {
             text: "Add new transaction",
             icon: <IoIosAddCircleOutline color={theme.colors.secondaryText} size={24} />,
-            link: "/new-transaction"
+            link: "/add-transaction"
 
         },
         {
@@ -30,7 +30,7 @@ export const Nav = () => {
         {
             text: "Add new category",
             icon: <IoIosAddCircleOutline color={theme.colors.secondaryText} size={24} />,
-            link: "/"
+            link: "/add-category"
 
         }
     ]

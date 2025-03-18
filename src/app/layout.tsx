@@ -1,6 +1,5 @@
 'use client';
 
-import { ThemeContextProvider } from '@/app/hooks/useThemeMode';
 import { GlobalStyle } from '@/styles/global';
 import { usePathname } from 'next/navigation';
 import React from 'react';
@@ -18,19 +17,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt">
       <body>
-        <ThemeContextProvider>
-          <GlobalStyle />
-          <AuthProvider>
-            <ReactQueryProvider>
-              <ProtectedRoute>
-                <S.Container isLoginPage={isLoginPage}>
-                  {!isLoginPage && <Sidebar />}
-                  <S.Main>{children}</S.Main>
-                </S.Container>
-              </ProtectedRoute>
-            </ReactQueryProvider>
-          </AuthProvider>
-        </ThemeContextProvider>
+        <GlobalStyle />
+        <AuthProvider>
+          <ReactQueryProvider>
+            <ProtectedRoute>
+              <S.Container isLoginPage={isLoginPage}>
+                {!isLoginPage && <Sidebar />}
+                <S.Main>{children}</S.Main>
+              </S.Container>
+            </ProtectedRoute>
+          </ReactQueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );

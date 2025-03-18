@@ -11,15 +11,20 @@ interface ProtectedRouteProps {
 const publicRoutes = ['/login'];
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
-        if (!isAuthenticated && !publicRoutes.includes(pathname)) {
+        if (!isLoading && !isAuthenticated && !publicRoutes.includes(pathname)) {
             router.push('/login');
         }
-    }, [isAuthenticated, pathname, router]);
+    }, [isAuthenticated, isLoading, pathname, router]);
+
+    // Show loading state until auth check is complete
+    if (isLoading) {
+        return <p>Loading...</p>;  // You can replace this with a spinner
+    }
 
     if (!isAuthenticated && !publicRoutes.includes(pathname)) {
         return null;

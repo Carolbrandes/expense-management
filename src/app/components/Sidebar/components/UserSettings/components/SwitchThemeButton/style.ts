@@ -3,6 +3,7 @@
 import styled from "styled-components";
 
 
+
 export const Switch = styled.div`
   display: flex;
   align-items: center;
@@ -17,7 +18,7 @@ export const Switch = styled.div`
 `;
 
 interface SwitchButtonProps {
-  isdarkmode: boolean;
+  isdarkmode: Theme;
 }
 
 export const SwitchButton = styled.div<SwitchButtonProps>`

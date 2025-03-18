@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 
+
 export async function POST(req: Request) {
     try {
         const { email, code } = await req.json();
@@ -20,10 +21,10 @@ export async function POST(req: Request) {
             user = await prisma.user.create({
                 data: {
                     email, // Register the new user with the provided email
+                    selectedTheme: 'light', // Now recognized by TypeScript
                 },
             });
         }
-
 
         // Fetch the verification code from the database
         const verification = await prisma.verificationCode.findFirst({
@@ -36,7 +37,6 @@ export async function POST(req: Request) {
                 },
             }
         });
-
 
         if (verification) {
             // Mark the code as used or expired

@@ -1,5 +1,7 @@
-import { SwitchThemeButton } from '../Sidebar/components/UserSettings/components/SwitchThemeButton'
-import * as S from './style'
+
+import SwitchThemeButton from '../Sidebar/components/UserSettings/components/SwitchThemeButton';
+import * as S from './style';
+
 
 export const Footer = () => {
     return (

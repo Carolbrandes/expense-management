@@ -11,10 +11,11 @@ interface TitleProps {
     positionAlign?: position
     positionJustify?: position
     color?: string
+    width?: string
 
 }
 
-export const Title = ({ text, tag: Tag, fontSize = '1rem', icon, direction, gap, positionAlign, positionJustify, margin, color }: TitleProps) => {
+export const Title = ({ text, tag: Tag, fontSize = '1rem', icon, direction, gap, positionAlign, positionJustify, margin, color, width }: TitleProps) => {
     const validTags: HeadingTag[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
     if (!validTags.includes(Tag)) {
@@ -28,6 +29,7 @@ export const Title = ({ text, tag: Tag, fontSize = '1rem', icon, direction, gap,
         positionJustify={positionJustify}
         margin={margin}
         color={color}
+        width={width}
     >
         {icon && icon}
         <Tag style={{ fontSize }}>{text}</Tag>

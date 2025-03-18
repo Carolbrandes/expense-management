@@ -15,6 +15,9 @@ export async function GET(req: Request) {
         const sortBy = searchParams.get('sortBy');
         const sortOrder = searchParams.get('sortOrder');
 
+        // Extract selectedTheme from query parameters
+        const selectedTheme = searchParams.get('selectedTheme');
+
         if (!userId) {
             return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
         }
@@ -45,6 +48,7 @@ export async function GET(req: Request) {
                 currency: true,
                 createdAt: true,
                 categories: true,
+                selectedTheme: true, // Now recognized by TypeScript
                 transactions: {
                     where: {
                         ...(filter.description && { description: { contains: filter.description } }),
@@ -67,6 +71,44 @@ export async function GET(req: Request) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
+        // If selectedTheme is provided in query params, update the user's selectedTheme
+        if (selectedTheme) {
+            await prisma.user.update({
+                where: { id: userIdNumber },
+                data: { selectedTheme }, // Now recognized by TypeScript
+            });
+
+            // Fetch the updated user data
+            const updatedUser = await prisma.user.findUnique({
+                where: { id: userIdNumber },
+                select: {
+                    id: true,
+                    email: true,
+                    currency: true,
+                    createdAt: true,
+                    categories: true,
+                    selectedTheme: true, // Now recognized by TypeScript
+                    transactions: {
+                        where: {
+                            ...(filter.description && { description: { contains: filter.description } }),
+                            ...(filter.category && { category: filter.category }),
+                            ...(filter.type && { type: filter.type }),
+                            ...(filter.startDate &&
+                                filter.endDate && {
+                                date: {
+                                    gte: new Date(filter.startDate),
+                                    lte: new Date(filter.endDate),
+                                },
+                            }),
+                        },
+                        orderBy: orderBy,
+                    },
+                },
+            });
+
+            return NextResponse.json(updatedUser);
+        }
+
         return NextResponse.json(user);
     } catch (error) {
         console.error('🚀 ~ GET /api/user error:', error);
@@ -74,10 +116,13 @@ export async function GET(req: Request) {
     }
 }
 
+// * create or update
 export async function PUT(req: Request) {
     try {
         const body = await req.json();
-        const { id, transactions, categories, currency } = body;
+        console.log("🚀 ~ PUT request received with body:", body);
+
+        const { id, transactions, categories, currency, selectedTheme } = body;
 
         // Validate userId
         if (!id) {
@@ -132,8 +177,8 @@ export async function PUT(req: Request) {
                     // Create new category
                     await prisma.category.create({
                         data: {
-                            ...category,
-                            userId: userIdNumber, // Associate with the user
+                            name: category.name, // Make sure "name" exists
+                            userId: userIdNumber, // Associate with user
                         },
                     });
                 }
@@ -146,7 +191,15 @@ export async function PUT(req: Request) {
                 where: { id: currency.id },
                 data: currency,
             });
-            console.log("🚀 ~ PUT ~ updatedCurrency:", updatedCurrency)
+            console.log("🚀 ~ PUT ~ updatedCurrency:", updatedCurrency);
+        }
+
+        // Update selectedTheme if provided
+        if (selectedTheme) {
+            await prisma.user.update({
+                where: { id: userIdNumber },
+                data: { selectedTheme },
+            });
         }
 
         // Fetch the updated user data

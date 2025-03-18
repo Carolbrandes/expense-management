@@ -17,7 +17,7 @@ export const Select = ({ label, options, labelPosition = 'top', ...rest }: Selec
         <S.SelectContainer labelPosition={labelPosition}>
             {label && <label htmlFor={label}>{label}</label>}
 
-            <select {...rest} id={label}>
+            <select {...rest} id={label} value={options[0].value}>
                 {
                     options.map((opt) => (<option key={opt.value} value={opt.value}>{opt.label}</option>))
                 }

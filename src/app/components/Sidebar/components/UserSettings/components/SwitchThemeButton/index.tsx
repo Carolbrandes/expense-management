@@ -1,24 +1,15 @@
 'use client'
 
-import { useState } from "react";
+import { useUserQuery } from "@/app/hooks/useUserQuery";
 import { RiMoonFill, RiSunLine } from "react-icons/ri";
-import { useThemeContext } from "../../../../../../hooks/useThemeMode";
 import * as S from "./style";
 
-export enum SwitchThemeButtonOptions {
-    LIGHT = "light",
-    DARK = "dark",
-}
 
-
-
-export const SwitchThemeButton = () => {
-    const { toggleTheme } = useThemeContext();
-    const [isDarkMode, setIsDarkMode] = useState(false);
+const SwitchThemeButton = () => {
+    const { user, updateUser } = useUserQuery()
 
     const handleToggle = () => {
-        setIsDarkMode(!isDarkMode);
-        toggleTheme(!isDarkMode ? SwitchThemeButtonOptions.DARK : SwitchThemeButtonOptions.LIGHT);
+        updateUser({ selectedTheme: user.selectedTheme == 'light' ? 'dark' : 'light' });
     };
 
     return (
@@ -29,9 +20,9 @@ export const SwitchThemeButton = () => {
             <S.IconWrapper>
                 <RiSunLine />
             </S.IconWrapper>
-            <S.SwitchButton isdarkmode={isDarkMode} />
+            <S.SwitchButton isdarkmode={user.selectedTheme} />
         </S.Switch>
     );
 };
 
-
+export default SwitchThemeButton

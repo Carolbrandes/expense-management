@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Severity } from './page';
 
 export const StyledBox = styled.div`
   display: flex;
@@ -45,20 +44,3 @@ export const StyledFormContainer = styled.div`
     gap: 0.05rem;
     padding-bottom: 1.5rem;
 `
-interface StyledAlertProps {
-  severity: Severity
-}
-
-export const StyledAlert = styled.div<StyledAlertProps>`
-  width: fit-content;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: ${({ severity, theme }) =>
-    severity === 'error' ? theme.colors.error :
-      severity === 'success' ? theme.colors.success :
-        theme.colors.info};
-  color: #fff;
-  position: absolute;
-    right: 3rem;
-    bottom: 4rem;
-`;

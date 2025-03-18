@@ -26,20 +26,26 @@ const fetchUser = async (userId: string, filters: IFilter): Promise<IUser> => {
 };
 
 // Update user data (transactions, categories, currency)
-const updateUser = async (user: IUser): Promise<IUser> => {
-    const response = await fetch('/api/user', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-    });
+const updateUser = async (updates: Partial<IUser>) => {
+    try {
+        const response = await fetch(`/api/user`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updates), // Send only the updated fields
+        });
 
-    if (!response.ok) {
-        throw new Error('Failed to update user data');
+        if (!response.ok) {
+            throw new Error("Failed to update user");
+        }
+
+        const data = await response.json();
+        console.log("Updated user from API:", data);
+        return data; // Return the updated user data
+    } catch (error) {
+        console.error("Error updating user:", error);
     }
-    const data = await response.json();
-    return data;
 };
 
 // Delete user transactions and categories
@@ -104,7 +110,8 @@ export const useUserQuery = () => {
                     expired: false,
                     user: {} as IUser,
                 }
-            ]
+            ],
+            selectedTheme: 'light'
         },
         isLoading: isUserLoading,
         error: userError,
@@ -120,13 +127,28 @@ export const useUserQuery = () => {
         status: updateUserStatus,
         error: updateUserError,
     } = useMutation({
-        mutationFn: (userUpdate: IUser) => {
+        mutationFn: async (updates: Partial<IUser>) => {
             if (!userId) {
                 return Promise.resolve(null);
             }
-            return updateUser(userUpdate);
+            return updateUser({ id: +userId, ...updates }); // Ensure userId is always included
         },
-        onSuccess: () => {
+        onMutate: async (updates) => {
+            await queryClient.cancelQueries({ queryKey: ['user', userId] });
+
+            const previousUserData = queryClient.getQueryData(['user', userId]);
+
+            queryClient.setQueryData(['user', userId], (old: IUser) => ({
+                ...old,
+                ...updates, // Merge only updated fields
+            }));
+
+            return { previousUserData };
+        },
+        onError: (err, updates, context) => {
+            queryClient.setQueryData(['user', userId], context?.previousUserData);
+        },
+        onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['user', userId] });
         },
     });
@@ -163,6 +185,7 @@ export const useUserQuery = () => {
         if (newFilters.endDate) queryParams.set('endDate', newFilters.endDate);
         if (newFilters.sortBy) queryParams.set('sortBy', newFilters.sortBy);
         if (newFilters.sortOrder) queryParams.set('sortOrder', newFilters.sortOrder);
+        if (newFilters.selectedTheme) queryParams.set('selectedTheme', newFilters.selectedTheme);
 
         // Update the URL with the new filters
         router.push(`?${queryParams.toString()}`);

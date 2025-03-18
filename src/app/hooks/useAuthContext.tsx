@@ -1,4 +1,3 @@
-// hooks/useAuthContext.tsx
 'use client';
 
 import { jwtDecode } from 'jwt-decode';
@@ -16,6 +15,7 @@ interface AuthProviderProps {
 
 interface AuthContextProps {
     isAuthenticated: boolean;
+    isLoading: boolean; // <-- NEW
     updateAuthenticated: (isAuth: boolean) => void;
     userId: string | null;
     updateUserId: (userId: string | null) => void;
@@ -25,6 +25,7 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // <-- NEW: Track loading state
     const [userId, setUserId] = useState<string | null>(null);
 
     const updateAuthenticated = (isAuth: boolean) => setIsAuthenticated(isAuth);
@@ -32,10 +33,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
+
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                console.log("🚀 ~ useEffect ~ decoded:", decoded)
+                console.log("🚀 ~ Decoded Token:", decoded);
+
                 if (decoded.exp * 1000 > Date.now()) {
                     setIsAuthenticated(true);
                     updateUserId(decoded.userId);
@@ -54,10 +57,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setIsAuthenticated(false);
             updateUserId(null);
         }
+
+        setIsLoading(false); // <-- AUTH CHECK COMPLETE
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, updateAuthenticated, userId, updateUserId }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, updateAuthenticated, userId, updateUserId }}>
             {children}
         </AuthContext.Provider>
     );

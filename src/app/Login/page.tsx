@@ -6,28 +6,26 @@ import { useEffect, useState } from "react";
 import { TbPigMoney } from "react-icons/tb";
 import { Button } from "../components/Form/Button";
 import { Input } from "../components/Form/Input";
+import { Toast } from "../components/Toast";
 import { useAuth } from "../hooks/useAuthContext";
 import * as S from './style';
 
-
-interface MessageSeverityProps {
-    [key: string]: Severity
+interface MessageProps {
+    text: string
+    severity: MessageSeverity
 }
+
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [isCodeSent, setIsCodeSent] = useState(false);
     const [code, setCode] = useState("");
-    const [message, setMessage] = useState("");
+    const [message, setMessage] = useState<MessageProps>({ text: '', severity: 'info' });
     const [isLoading, setIsLoading] = useState(false)
     const { updateAuthenticated, updateUserId } = useAuth();
     const router = useRouter();
 
-    const MessagesSeverity = {
-        "Invalid code.": "error",
-        "Código de verificação enviado para o seu email.": "success",
-        "Login realizado com sucesso!": "success",
-    } as MessageSeverityProps;
+
 
     const isTokenValid = (token) => {
         try {
@@ -65,16 +63,16 @@ export default function LoginPage() {
             const data = await response.json();
             if (response.ok) {
                 setIsCodeSent(true);
-                setMessage("Código de verificação enviado para o seu email.");
+                setMessage({ text: 'Verification code sent to your email.', severity: 'success' });
             } else {
-                setMessage(data.error || "Falha ao enviar o código.");
+                setMessage({ text: 'failed to send code.', severity: 'error' });
             }
         } catch (error) {
             console.error("Error sending code:", error);
-            setMessage("Ocorreu um erro. Tente novamente.");
+            setMessage({ text: 'failed to send code.', severity: 'error' });
         } finally {
             setIsLoading(false)
-            setTimeout(() => setMessage(''), 20000)
+            setTimeout(() => setMessage({ text: '', severity: 'info' }), 20000)
         }
     };
 
@@ -95,18 +93,18 @@ export default function LoginPage() {
                     localStorage.setItem("auth_token", token);
                     updateUserId(data.userId);
                     updateAuthenticated(true);
-                    setMessage("Login realizado com sucesso!");
+                    setMessage({ text: 'Login successful!', severity: 'success' });
                     router.push("/");
                 } else {
                     console.error("Token is missing in the response.");
-                    setMessage("Erro no login. Tente novamente.");
+                    setMessage({ text: 'Login error', severity: 'error' });
                 }
             } else {
-                setMessage(data.error || "Código inválido.");
+                setMessage({ text: 'Invalid code', severity: 'error' });
             }
         } catch (error) {
             console.error("Error verifying code:", error);
-            setMessage("Ocorreu um erro. Tente novamente.");
+            setMessage({ text: 'An error has occurred. Please try again', severity: 'error' });
         } finally {
             setIsLoading(false)
         }
@@ -115,7 +113,7 @@ export default function LoginPage() {
     const handleBackToEmail = () => {
         setIsCodeSent(false);
         setCode("");
-        setMessage("");
+        setMessage({ text: '', severity: 'info' });
     };
 
     return (
@@ -140,10 +138,8 @@ export default function LoginPage() {
                         </Button>
                     </S.StyledFormContainer>
 
-                    {message && (
-                        <S.StyledAlert severity={MessagesSeverity[message] || MessagesSeverity.default}>
-                            {message}
-                        </S.StyledAlert>
+                    {message && (<Toast message={message.text} severity={message.severity} />
+
                     )}
                 </S.FormBox>
             ) : (
@@ -164,10 +160,13 @@ export default function LoginPage() {
 
                     {message && (
                         <>
-                            <S.StyledAlert severity={MessagesSeverity[message] || MessagesSeverity.default}>
-                                {message}
-                            </S.StyledAlert>
-                            {message === "Invalid code." && (
+
+                            (<Toast message={message.text} severity={message.severity} />
+
+                            )
+
+
+                            {message.text === "Invalid code." && (
                                 <Button onclick={handleBackToEmail} isLoading={isLoading}>
                                     Return to login
                                 </Button>

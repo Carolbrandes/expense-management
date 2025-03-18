@@ -26,11 +26,11 @@ export const StyledInputContainer = styled.div<StyledInputContainerProps>`
 `
 
 interface StyledTextFieldProps {
-  inputWidth?: string
+  inputwidth?: string
 }
 
 export const StyledTextField = styled.input<StyledTextFieldProps>`
-  width: ${props => props.inputWidth ? props.inputWidth : '12rem'};
+  width: ${props => props.inputwidth ? props.inputwidth : '12rem'};
   height: 3rem;
   padding: 0.5rem;
   border: 1px solid ${({ theme }) => theme.colors.primary};

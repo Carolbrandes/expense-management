@@ -39,7 +39,7 @@ export const Form = ({ title, fields, buttons }: FormProps) => {
                                 type={field.type}
                                 label={field.label}
                                 value={field.value}
-                                onchange={field.onChange}
+                                onChange={field.onChange} // Ensure this is passed correctly
                             />
                         );
                     }
@@ -62,12 +62,11 @@ export const Form = ({ title, fields, buttons }: FormProps) => {
                                 key={field.label}
                                 label={field.label}
                                 value={field.value}
-                                onChange={field.onChange} // Pass the event handler
+                                onChange={field.onChange}
                             />
                         );
                     }
 
-                    // Fallback for unsupported field types
                     console.warn(`Unsupported field type: ${field.type}`);
                     return null;
                 })}
