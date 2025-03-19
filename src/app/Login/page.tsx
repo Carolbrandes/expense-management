@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TbPigMoney } from "react-icons/tb";
 import { Button } from "../components/Form/Button";
-import { Input } from "../components/Form/Input";
+import { SendCodeForm } from "../components/Login/SendCodeForm";
+import { VerificationCodeForm } from "../components/Login/VerificationCodeForm";
 import { Toast } from "../components/Toast";
 import { useAuth } from "../hooks/useAuthContext";
 import * as S from './style';
@@ -18,13 +19,13 @@ interface MessageProps {
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
-    const [isCodeSent, setIsCodeSent] = useState(false);
     const [code, setCode] = useState("");
+    const [isCodeSent, setIsCodeSent] = useState(false);
+
     const [message, setMessage] = useState<MessageProps>({ text: '', severity: 'info' });
     const [isLoading, setIsLoading] = useState(false)
     const { updateAuthenticated, updateUserId } = useAuth();
     const router = useRouter();
-
 
 
     const isTokenValid = (token) => {
@@ -49,67 +50,6 @@ export default function LoginPage() {
         }
     }, []);
 
-
-
-    const sendCode = async () => {
-        try {
-            setIsLoading(true)
-            const response = await fetch("/api/send-code", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email }),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                setIsCodeSent(true);
-                setMessage({ text: 'Verification code sent to your email.', severity: 'success' });
-            } else {
-                setMessage({ text: 'failed to send code.', severity: 'error' });
-            }
-        } catch (error) {
-            console.error("Error sending code:", error);
-            setMessage({ text: 'failed to send code.', severity: 'error' });
-        } finally {
-            setIsLoading(false)
-            setTimeout(() => setMessage({ text: '', severity: 'info' }), 20000)
-        }
-    };
-
-    const verifyCode = async () => {
-        try {
-            setIsLoading(true)
-            const response = await fetch("/api/verify-code", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, code }),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                const token = data.token;
-
-                if (token) {
-                    localStorage.setItem("auth_token", token);
-                    updateUserId(data.userId);
-                    updateAuthenticated(true);
-                    setMessage({ text: 'Login successful!', severity: 'success' });
-                    router.push("/");
-                } else {
-                    console.error("Token is missing in the response.");
-                    setMessage({ text: 'Login error', severity: 'error' });
-                }
-            } else {
-                setMessage({ text: 'Invalid code', severity: 'error' });
-            }
-        } catch (error) {
-            console.error("Error verifying code:", error);
-            setMessage({ text: 'An error has occurred. Please try again', severity: 'error' });
-        } finally {
-            setIsLoading(false)
-        }
-    };
-
     const handleBackToEmail = () => {
         setIsCodeSent(false);
         setCode("");
@@ -118,24 +58,22 @@ export default function LoginPage() {
 
     return (
         <S.StyledBox>
+            <S.StyledTypography>
+                <TbPigMoney size={32} />
+                Login
+            </S.StyledTypography>
+
             {!isCodeSent ? (
                 <S.FormBox>
-                    <S.StyledTypography>
-                        <TbPigMoney size={32} />
-                        Login
-                    </S.StyledTypography>
-
-
                     <S.StyledFormContainer>
-                        <Input
-                            value={email}
-                            onchange={setEmail}
-                            type="email"
-                            placeholder="Enter your email"
+                        <SendCodeForm
+                            email={email}
+                            isLoading={isLoading}
+                            setEmail={setEmail}
+                            setIsLoading={setIsLoading}
+                            setIsCodeSent={setIsCodeSent}
+                            setMessage={setMessage}
                         />
-                        <Button onclick={sendCode} isLoading={isLoading} widthButton="14rem">
-                            Send the code
-                        </Button>
                     </S.StyledFormContainer>
 
                     {message && (<Toast message={message.text} severity={message.severity} />
@@ -144,26 +82,21 @@ export default function LoginPage() {
                 </S.FormBox>
             ) : (
                 <S.FormBox>
-                    <S.StyledTypography>Código</S.StyledTypography>
-
                     <S.StyledFormContainer>
-                        <Input
-                            placeholder="Verification code"
-                            value={code}
-                            onchange={setCode}
+                        <VerificationCodeForm
+                            code={code}
+                            email={email}
+                            isLoading={isLoading}
+                            setIsLoading={setIsLoading}
+                            setMessage={setMessage}
+                            setCode={setCode}
                         />
-
-                        <Button onclick={verifyCode} isLoading={isLoading} widthButton="14rem">
-                            Check code
-                        </Button>
                     </S.StyledFormContainer>
 
                     {message && (
                         <>
 
-                            (<Toast message={message.text} severity={message.severity} />
-
-                            )
+                            <Toast message={message.text} severity={message.severity} />
 
 
                             {message.text === "Invalid code." && (

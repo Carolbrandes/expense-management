@@ -77,7 +77,7 @@ interface IFilter {
 }
 
 // *** form types ***
-type TypeInput = 'text' | 'select' | 'date';
+type TypeInput = 'text' | 'select' | 'date' | 'email';
 type Severity = 'error' | 'success';
 
 interface BaseField extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -90,6 +90,10 @@ interface TextField extends BaseField {
     type: 'text';
 }
 
+interface EmailField extends BaseField {
+    type: 'email';
+}
+
 interface DateField extends BaseField {
     type: 'date';
 }
@@ -99,7 +103,7 @@ interface SelectField extends BaseField {
     selectOptions: { value: string; label: string }[];
 }
 
-type Field = TextField | DateField | SelectField;
+type Field = TextField | DateField | SelectField | EmailField;
 
 type MessageSeverity = 'error' | 'success' | 'info'
 

@@ -17,9 +17,13 @@ export async function POST(req: Request) {
 
         // Find the user or create a new one if it doesn't exist
         const user = await prisma.user.upsert({
-            where: { email },
-            update: {},
-            create: { email },
+            where: { email }, // Find the user by email
+            update: {}, // If the user exists, no updates are made
+            create: {
+                email, // Required field
+                selectedTheme: 'light', // Provide a default value for optional fields
+                // currencyId: 1, // Only include this if you have a valid currencyId
+            },
         });
 
 

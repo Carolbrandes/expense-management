@@ -1,9 +1,13 @@
 import * as S from './style';
 
-export const Spinner = () => {
+interface SpinnerProps {
+    color?: string
+}
+
+export const Spinner = ({ color }: SpinnerProps) => {
     return (
         <S.SpinnerContainer>
-            <S.Spinner />
+            <S.Spinner color={color} />
         </S.SpinnerContainer>
     )
 }

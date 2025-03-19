@@ -24,6 +24,7 @@ export const FormBox = styled.div`
   width: 100%;
   max-width: 35rem;
   min-height: 10rem;
+  margin-top: 2rem;
 `;
 
 export const StyledTypography = styled.h5`
