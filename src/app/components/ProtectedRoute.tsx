@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useAuth } from '../hooks/useAuthContext';
 import { useUserQuery } from '../hooks/useUserQuery';
+import { Spinner } from './Spinner';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -14,7 +15,6 @@ const publicRoutes = ['/login'];
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     const { isAuthenticated, isLoading } = useAuth();
     const { user } = useUserQuery()
-    console.log("🚀 ~ ProtectedRoute ~ isAuthenticated:", isAuthenticated)
     const router = useRouter();
     const pathname = usePathname();
 
@@ -24,9 +24,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
         }
     }, [isAuthenticated, isLoading, pathname, router, user]);
 
-    // Show loading state until auth check is complete
+
     if (isLoading) {
-        return <p>Loading...</p>;  // You can replace this with a spinner
+        return <Spinner />;
     }
 
     if (!isAuthenticated && !publicRoutes.includes(pathname)) {

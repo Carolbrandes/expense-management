@@ -10,7 +10,7 @@ import { UserSettings } from './components/UserSettings'
 import * as S from './style'
 
 export const Sidebar = () => {
-    console.log("Sidebar")
+
     const { isAuthenticated } = useAuth();
 
     const router = useRouter();

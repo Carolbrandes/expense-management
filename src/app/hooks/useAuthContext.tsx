@@ -15,7 +15,7 @@ interface AuthProviderProps {
 
 interface AuthContextProps {
     isAuthenticated: boolean;
-    isLoading: boolean; // <-- NEW
+    isLoading: boolean;
     updateAuthenticated: (isAuth: boolean) => void;
     userId: string | null;
     updateUserId: (userId: string | null) => void;
@@ -25,7 +25,7 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 export function AuthProvider({ children }: AuthProviderProps) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setIsLoading] = useState(true); // <-- NEW: Track loading state
+    const [isLoading, setIsLoading] = useState(true);
     const [userId, setUserId] = useState<string | null>(null);
 
     const updateAuthenticated = (isAuth: boolean) => setIsAuthenticated(isAuth);
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (token) {
             try {
                 const decoded = jwtDecode(token);
-                console.log("🚀 ~ Decoded Token:", decoded);
+
 
                 if (decoded.exp * 1000 > Date.now()) {
                     setIsAuthenticated(true);
@@ -58,7 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             updateUserId(null);
         }
 
-        setIsLoading(false); // <-- AUTH CHECK COMPLETE
+        setIsLoading(false);
     }, []);
 
     return (

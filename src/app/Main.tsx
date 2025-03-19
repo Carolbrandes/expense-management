@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserQuery } from '@/app/hooks/useUserQuery'; // Import the hook to fetch user data
+import { useUserQuery } from '@/app/hooks/useUserQuery';
 import { GlobalStyle } from '@/styles/global';
 import { usePathname } from 'next/navigation';
 import React from 'react';
@@ -14,10 +14,8 @@ import * as S from './layoutStyle';
 export default function Main({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const isLoginPage = pathname === '/login';
-
-    // Fetch the user's selectedTheme
     const { user } = useUserQuery();
-    const theme = user?.selectedTheme || 'light'; // Default to 'light' if user or selectedTheme is not available
+    const theme = user?.selectedTheme || 'light';
 
     return (
         <AuthProvider>

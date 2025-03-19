@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './style';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void; // Fix: Use camelCase
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     label?: string;
     labelPosition?: labelPosition;
     margin?: string;

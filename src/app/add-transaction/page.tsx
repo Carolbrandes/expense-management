@@ -16,13 +16,12 @@ export default function NewTransaction() {
     const { user, updateUser } = useUserQuery();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, field: string) => {
-        console.log(`New value of ${field}:`, event.target.value); // Debugging
         const updateObj = { ...formNewCategory, [field]: event.target.value }
         setFormNewCategory(updateObj)
     };
 
     const validateTransaction = (transaction: INewTransaction): boolean => {
-        // Check if all required fields are filled
+
         return (
             transaction.description.trim() !== '' &&
             transaction.category.trim() !== '' &&
@@ -33,16 +32,13 @@ export default function NewTransaction() {
     };
 
     const handleSave = (newTransaction: ITransaction) => {
-        console.log("🚀 ~ handleSave ~ newTransaction:", newTransaction)
-        // implement here the verification if all props are filled
+
         if (!validateTransaction(newTransaction)) {
             alert('Please fill out all required fields.');
-            return; // Stop execution if validation fails
+            return;
         }
 
         const updatedTransactions = [...user.transactions, { ...newTransaction, userId: user.id }];
-
-        console.log("🚀 ~ updateUserMutation called with:", { transactions: updatedTransactions });
 
         updateUser({ transactions: updatedTransactions });
     }

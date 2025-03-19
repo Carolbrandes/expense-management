@@ -39,7 +39,7 @@ export const Form = ({ title, fields, buttons }: FormProps) => {
                                 type={field.type}
                                 label={field.label}
                                 value={field.value}
-                                onChange={field.onChange} // Ensure this is passed correctly
+                                onChange={field.onChange}
                             />
                         );
                     }

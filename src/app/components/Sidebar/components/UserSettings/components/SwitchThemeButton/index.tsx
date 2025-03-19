@@ -9,7 +9,7 @@ const SwitchThemeButton = () => {
     const { user, updateUser } = useUserQuery();
     const [selectedTheme, setSelectedTheme] = useState<Theme>('light'); // Default to 'light'
 
-    // Sync selectedTheme with user.selectedTheme
+
     useEffect(() => {
         if (user?.selectedTheme) {
             setSelectedTheme(user.selectedTheme);

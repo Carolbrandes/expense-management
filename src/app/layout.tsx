@@ -8,8 +8,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt">
       <body>
-        <ReactQueryProvider> {/* ReactQueryProvider at the top level */}
-          <Main>{children}</Main> {/* Wrap children with the Main component */}
+        <ReactQueryProvider>
+          <Main>{children}</Main>
         </ReactQueryProvider>
       </body>
     </html>

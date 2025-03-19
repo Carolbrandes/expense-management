@@ -10,7 +10,7 @@ const hexToRgba = (hex: string, alpha: number): string => {
   const g = parseInt(hexColor.substring(2, 4), 16);
   const b = parseInt(hexColor.substring(4, 6), 16);
 
-  // Return the rgba string
+
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 

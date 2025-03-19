@@ -120,7 +120,7 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
     try {
         const body = await req.json();
-        console.log("🚀 ~ PUT request received with body:", body);
+
 
         const { id, transactions, categories, currency, selectedTheme } = body;
 
@@ -187,11 +187,11 @@ export async function PUT(req: Request) {
 
         // Update currency if provided
         if (currency) {
-            const updatedCurrency = await prisma.currency.update({
+            await prisma.currency.update({
                 where: { id: currency.id },
                 data: currency,
             });
-            console.log("🚀 ~ PUT ~ updatedCurrency:", updatedCurrency);
+
         }
 
         // Update selectedTheme if provided

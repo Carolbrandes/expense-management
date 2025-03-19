@@ -7,9 +7,9 @@ import * as S from './style';
 
 export const CurrencySelect = () => {
   const { user, updateUser, isUserUpdating } = useUserQuery();
-  const [currencies, setCurrencies] = useState<ICurrency[]>([]); // Local state for currencies
+  const [currencies, setCurrencies] = useState<ICurrency[]>([]);
 
-  // Fetch currencies on the client side
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchCurrencies();
@@ -19,7 +19,7 @@ export const CurrencySelect = () => {
     fetchData();
   }, []);
 
-  // Handle currency change
+
   const handleCurrencyChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const acronym = event.target.value;
     const selectedCurrency = currencies.find((currency) => currency.acronym === acronym);

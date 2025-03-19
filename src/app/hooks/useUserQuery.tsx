@@ -41,8 +41,8 @@ const updateUser = async (updates: Partial<IUser>) => {
         }
 
         const data = await response.json();
-        console.log("Updated user from API:", data);
-        return data; // Return the updated user data
+
+        return data;
     } catch (error) {
         console.error("Error updating user:", error);
     }
